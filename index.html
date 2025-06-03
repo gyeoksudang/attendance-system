@@ -69,16 +69,17 @@
         });
         document.getElementById('today-date').textContent = dateStr;
         
-        // QR 코드 생성
+        // QR 코드 생성 (URL 단축)
         const todayISO = today.toISOString().split('T')[0];
-        const qrData = `https://gyeoksudang.github.io/attendance-system/attendance.html?date=${todayISO}`;
+        const qrData = `https://gyeoksudang.github.io/attendance-system/attendance.html`;
         
         new QRCode(document.getElementById('qr-canvas'), {
             text: qrData,
-            width: 300,
-            height: 300,
+            width: 256,
+            height: 256,
             colorDark: "#000000",
-            colorLight: "#ffffff"
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.L  // 에러 수정 레벨 낮춤
         });
     </script>
 </body>
