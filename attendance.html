@@ -56,10 +56,7 @@
         <label for="student-select">이름을 선택하세요:</label>
         <select id="student-select">
             <option value="">-- 선택하세요 --</option>
-            <option value="김철수">김철수</option>
-            <option value="박영희">박영희</option>
-            <option value="이민수">이민수</option>
-            <option value="최지현">최지현</option>
+            <!-- 학생 명단은 구글 시트에서 자동으로 로드됩니다 -->
         </select>
     </div>
     
@@ -70,20 +67,48 @@
     <div id="message"></div>
     
     <script>
-        // URL에서 날짜 파라미터 가져오기
-        const urlParams = new URLSearchParams(window.location.search);
-        const attendanceDate = urlParams.get('date');
+        // 현재 날짜 자동 감지 (URL 파라미터 대신)
+        const today = new Date();
+        const attendanceDate = today.toISOString().split('T')[0];
         
         // 날짜 정보 표시
-        if (attendanceDate) {
-            const date = new Date(attendanceDate);
-            const dateStr = date.toLocaleDateString('ko-KR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                weekday: 'long'
+        const dateStr = today.toLocaleDateString('ko-KR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            weekday: 'long'
+        });
+        document.getElementById('date-info').innerHTML = `<p><strong>${dateStr}</strong></p>`;
+        
+        // 구글 시트에서 학생 명단 불러오기
+        loadStudentList();
+        
+        function loadStudentList() {
+            // Apps Script에서 학생 명단 가져오기
+            fetch('https://script.google.com/macros/s/AKfycbyqD5XljHn5bH2l0IJxeMiyvW5OrFNwXG6_RD957IoibFrrnD2cj5aH_FXgAM9zu8ubpA/exec?action=getStudents', {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                const selectElement = document.getElementById('student-select');
+                
+                // 기존 옵션들 제거 (기본 선택 옵션 제외)
+                while(selectElement.children.length > 1) {
+                    selectElement.removeChild(selectElement.lastChild);
+                }
+                
+                // 구글 시트에서 가져온 학생들 추가
+                data.students.forEach(student => {
+                    const option = document.createElement('option');
+                    option.value = student.name;
+                    option.textContent = student.name;
+                    selectElement.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('학생 명단 로딩 실패:', error);
+                showMessage('학생 명단을 불러올 수 없습니다.', 'error');
             });
-            document.getElementById('date-info').innerHTML = `<p><strong>${dateStr}</strong></p>`;
         }
         
         function checkAttendance() {
@@ -106,11 +131,12 @@
             const attendanceData = {
                 student: selectedStudent,
                 time: now.toLocaleString('ko-KR'),
-                date: attendanceDate || now.toISOString().split('T')[0]
+                date: attendanceDate
             };
             
             // Google Apps Script Web App으로 데이터 전송
-            fetch('https://script.google.com/macros/s/AKfycbyeuu-DQrNbA4xAgd61JJjxlPcmKErCRsKh07QnnkQWFCJx_1lfp1ycl_CqY858DNHz6Q/exec', {
+            // TODO: 실제 Apps Script URL로 교체 필요
+            fetch('https://script.google.com/macros/s/AKfycbyqD5XljHn5bH2l0IJxeMiyvW5OrFNwXG6_RD957IoibFrrnD2cj5aH_FXgAM9zu8ubpA/exec', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
