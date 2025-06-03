@@ -54,7 +54,7 @@
         <h3>사용법</h3>
         <p>1. 위 QR코드를 인쇄해서 학원 입구에 부착하세요</p>
         <p>2. 학생들이 QR코드를 스캔하여 출석 체크합니다</p>
-        <p>3. <a href="https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID" target="_blank">구글 시트에서 실시간 확인</a></p>
+        <p>3. <a href="https://docs.google.com/spreadsheets/d/1F8eRlHvNMnzPdUynWQByQ6mLBtEJGOmVuEWmsRmbhjA" target="_blank">구글 시트에서 실시간 확인</a></p>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js"></script>
@@ -71,7 +71,7 @@
         
         // QR 코드 생성
         const todayISO = today.toISOString().split('T')[0];
-        const qrData = `https://YOUR_USERNAME.github.io/attendance-system/attendance.html?date=${todayISO}`;
+        const qrData = `https://gyeoksudang.github.io/attendance-system/attendance.html?date=${todayISO}`;
         
         QRCode.toCanvas(document.getElementById('qr-canvas'), qrData, {
             width: 300,
