@@ -85,7 +85,7 @@
         
         function loadStudentList() {
             // Apps Script에서 학생 명단 가져오기
-            fetch('https://script.google.com/macros/s/AKfycbyqD5XljHn5bH2l0IJxeMiyvW5OrFNwXG6_RD957IoibFrrnD2cj5aH_FXgAM9zu8ubpA/exec?action=getStudents', {
+            fetch('YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL?action=getStudents', {
                 method: 'GET'
             })
             .then(response => response.json())
@@ -136,7 +136,7 @@
             
             // Google Apps Script Web App으로 데이터 전송
             // TODO: 실제 Apps Script URL로 교체 필요
-            fetch('https://script.google.com/macros/s/AKfycbyqD5XljHn5bH2l0IJxeMiyvW5OrFNwXG6_RD957IoibFrrnD2cj5aH_FXgAM9zu8ubpA/exec', {
+            fetch('YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
