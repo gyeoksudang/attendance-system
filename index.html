@@ -57,27 +57,29 @@
         <p>3. <a href="https://docs.google.com/spreadsheets/d/1F8eRlHvNMnzPdUynWQByQ6mLBtEJGOmVuEWmsRmbhjA" target="_blank">구글 시트에서 실시간 확인</a></p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-    <script>
-        // 오늘 날짜 표시
-        const today = new Date();
-        const dateStr = today.toLocaleDateString('ko-KR', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            weekday: 'long'
-        });
-        document.getElementById('today-date').textContent = dateStr;
-        
-        // QR 코드 생성
-        const todayISO = today.toISOString().split('T')[0];
-        const qrData = `https://gyeoksudang.github.io/attendance-system/attendance.html?date=${todayISO}`;
-        
-        QRCode.toCanvas(document.getElementById('qr-canvas'), qrData, {
-            width: 300,
-            height: 300,
-            margin: 2
-        });
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+// 오늘 날짜 표시
+const today = new Date();
+const dateStr = today.toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    weekday: 'long'
+});
+document.getElementById('today-date').textContent = dateStr;
+
+// QR 코드 생성
+const todayISO = today.toISOString().split('T')[0];
+const qrData = `https://사용자명.github.io/저장소명/attendance.html?date=${todayISO}`;
+
+new QRCode(document.getElementById('qr-canvas'), {
+    text: qrData,
+    width: 300,
+    height: 300,
+    colorDark: "#000000",
+    colorLight: "#ffffff"
+});
+</script>
 </body>
 </html>
